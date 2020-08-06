@@ -93,6 +93,9 @@ export function Repositories({ repos, typeFilter, languageFilter, languageColor 
             })}
           </select>
         </div>
+        <div className={styles.new_repo}>
+          <button>New</button>
+        </div>
       </div>
       <div>
         {filteredRepos.map((item, index) => (
