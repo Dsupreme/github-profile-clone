@@ -39,19 +39,19 @@ export function Content() {
 
   return (
     <>
-      <div className={`${styles.tabset} ${styles.sticky_wrapper} ${isSticky ? styles.sticky : ''}`} ref={ref}>
-        <input type="radio" name="tabset" id="tab1" checked={activeTab === 0} onChange={changeTab} value="0" />
-        <label htmlFor="tab1">{content.tabs[0]}</label>
-        <input type="radio" name="tabset" id="tab2" checked={activeTab === 1} onChange={changeTab} value="1" />
-        <label htmlFor="tab2">
-          {content.tabs[1]}
-          <span className={styles.repo_count}> {content.repositories.length}</span>
-        </label>
-        <input type="radio" name="tabset" id="tab3" checked={activeTab === 2} onChange={changeTab} value="2" />
-        <label htmlFor="tab3">{content.tabs[2]}</label>
-      </div>
-
       <div className={styles.content}>
+        <div className={`${styles.tabset} ${styles.sticky_wrapper} ${isSticky ? styles.sticky : ''}`} ref={ref}>
+          <input type="radio" name="tabset" id="tab1" checked={activeTab === 0} onChange={changeTab} value="0" />
+          <label htmlFor="tab1">{content.tabs[0]}</label>
+          <input type="radio" name="tabset" id="tab2" checked={activeTab === 1} onChange={changeTab} value="1" />
+          <label htmlFor="tab2">
+            {content.tabs[1]}
+            <span className={styles.repo_count}> {content.repositories.length}</span>
+          </label>
+          <input type="radio" name="tabset" id="tab3" checked={activeTab === 2} onChange={changeTab} value="2" />
+          <label htmlFor="tab3">{content.tabs[2]}</label>
+        </div>
+
         <div className={styles.profile_panel}>
           <Profile />
         </div>

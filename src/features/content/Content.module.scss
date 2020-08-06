@@ -1,6 +1,5 @@
 .sticky_wrapper {
   position: relative;
-  height: 3rem;
   flex: 1;
   width: 100%;
   background-color: #fff;
@@ -15,64 +14,69 @@
   z-index: 1;
 }
 
-.tabset {
-  & > input[type='radio'] {
-    position: absolute;
-    left: -200vw;
-  }
-
-  & > label {
-    position: relative;
-    display: inline-block;
-    padding: 15px 15px 25px;
-    border-bottom: 1px solid transparent;
-    cursor: pointer;
-    font-weight: 600;
-    left: 35%;
-  }
-
-  & > label:hover,
-  & > input:focus + label {
-    color: #06c;
-    border-bottom: 1px solid #06c;
-  }
-
-  & > label:hover::after,
-  & > input:focus + label::after,
-  & > input:checked + label::after {
-    background: #06c;
-  }
-
-  & > input:checked + label {
-    color: #06c;
-    border-bottom: 1px solid #06c;
-  }
-
-  .repo_count {
-    background-color: #06c;
-    color: #fff;
-    border-radius: 50%;
-    margin-left: 0.5rem;
-  }
-}
-
 .content {
   display: grid;
   width: 100%;
   grid-template-columns: 35% 65%;
+  grid-template-rows: auto;
+  grid-template-areas: 'sticky_panel sticky_panel' 'profile_panel tabs_panel';
+
+  .tabset {
+    grid-area: sticky_panel;
+    align-self: start;
+
+    & > input[type='radio'] {
+      position: absolute;
+      left: -200vw;
+    }
+
+    & > label {
+      position: relative;
+      display: inline-block;
+      padding: 15px 15px 25px;
+      border-bottom: 1px solid transparent;
+      cursor: pointer;
+      font-weight: 600;
+      left: 35%;
+    }
+
+    & > label:hover,
+    & > input:focus + label {
+      color: #06c;
+      border-bottom: 1px solid #06c;
+    }
+
+    & > label:hover::after,
+    & > input:focus + label::after,
+    & > input:checked + label::after {
+      background: #06c;
+    }
+
+    & > input:checked + label {
+      color: #06c;
+      border-bottom: 1px solid #06c;
+    }
+
+    .repo_count {
+      background-color: #06c;
+      color: #fff;
+      border-radius: 50%;
+      margin-left: 0.5rem;
+    }
+  }
 
   .profile_panel {
     position: relative;
     bottom: 3rem;
     justify-self: flex-end;
-    width: 50%;
+    max-width: 20rem;
+    grid-area: profile_panel;
   }
 
   .tab_panels {
+    grid-area: tabs_panel;
     section {
       width: 80%;
-      /* margin: 0 auto; */
-      /* margin-left: 40%; */
       position: relative;
     }
   }
@@ -83,5 +87,30 @@
 
   .hidden {
     display: none;
+  }
+}
+
+@media all and (max-width: 768px) {
+  .content {
+    grid-template-areas: 'profile_panel profile_panel' 'sticky_panel sticky_panel' 'tabs_panel tabs_panel';
+
+    .profile_panel {
+      position: relative;
+      bottom: 0;
+      justify-self: center;
+      max-width: 100%;
+      grid-area: profile_panel;
+    }
+
+    .tabset > label {
+      left: 20%;
+    }
+
+    .tab_panels {
+      section {
+        width: 90%;
+        margin: 0 auto;
+      }
+    }
   }
 }

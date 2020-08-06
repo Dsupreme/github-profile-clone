@@ -9,6 +9,7 @@
   .input {
     width: 60%;
   }
+  
   .select_type,
   .select_language {
     width: 20%;
@@ -83,8 +84,10 @@
     }
 
     .language_color {
-      width: 1em;
       height: 1em;
+      width: 0.6em;
+      display: inline-block;
+      border-radius: 50%;
     }
   }
 }

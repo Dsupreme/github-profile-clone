@@ -4,37 +4,20 @@ import styles from './Repositories.module.scss';
 import { Repository } from '../../Components/Repositories/Repository';
 
 export function Repositories({ repos, typeFilter, languageFilter, languageColor }) {
-  const items = [];
   const [filteredRepos, setFilteredRepos] = useState(repos);
   const [selectedType, setFilterType] = useState(typeFilter[0]);
   const [searchStr, setSearchStr] = useState('');
   const [selectedLanguage, setLanguage] = useState(languageFilter[0]);
 
-  useEffect(() => {
-    filterRepos();
-  }, [repos, selectedType, searchStr, selectedLanguage]);
+  const debounce = function (fn, delay) {
+    let timer;
+    return function () {
+      let _this = this;
+      let args = arguments;
 
-  const filterRepos = (e) => {
-    let filteredReposArr = JSON.parse(JSON.stringify(repos));
-    // Type Check
-    if (selectedType !== 'All') {
-      filteredReposArr = filteredReposArr.filter((ele) => {
-        if (selectedType === 'Forks') return ele.fork;
-        if (selectedType === 'Sources') return !ele.fork;
-      });
-    }
-
-    if (selectedLanguage !== 'All') {
-      filteredReposArr = filteredReposArr.filter((ele) => {
-        return ele.language === selectedLanguage;
-      });
-    }
-
-    filteredReposArr = filteredReposArr.filter((ele) => {
-      return ele.name.toLowerCase().includes(searchStr.toLowerCase());
-    });
-
-    setFilteredRepos(filteredReposArr);
+      clearTimeout(timer);
+      setTimeout(() => fn.apply(_this, args), delay);
+    };
   };
 
   const changeFilterType = (e) => {
@@ -42,12 +25,45 @@ export function Repositories({ repos, typeFilter, languageFilter, languageColor 
   };
 
   const setSearchString = (e) => {
-    setSearchStr(e.target.value);
+    debounce(setSearchStr, 1000)(e.target.value);
   };
 
   const changeFilterLanguage = (e) => {
     setLanguage(e.target.value);
   };
+
+  useEffect(() => {
+    const filterRepos = (e) => {
+      let filteredReposArr = JSON.parse(JSON.stringify(repos));
+      // Type Check
+      if (selectedType !== 'All') {
+        filteredReposArr = filteredReposArr.filter((ele) => {
+          if (selectedType === 'Forks') {
+            return ele.fork;
+          }
+          if (selectedType === 'Sources') {
+            return !ele.fork;
+          }
+          return false;
+        });
+      }
+
+      if (selectedLanguage !== 'All') {
+        filteredReposArr = filteredReposArr.filter((ele) => {
+          return ele.language === selectedLanguage;
+        });
+      }
+
+      filteredReposArr = filteredReposArr.filter((ele) => {
+        return ele.name.toLowerCase().includes(searchStr.toLowerCase());
+      });
+
+      setFilteredRepos(filteredReposArr);
+      return;
+    };
+
+    filterRepos();
+  }, [repos, selectedType, searchStr, selectedLanguage]);
 
   return (
     <>
@@ -56,7 +72,7 @@ export function Repositories({ repos, typeFilter, languageFilter, languageColor 
           <input type="text" placeholder="Find a repository..." onChange={setSearchString} />
         </div>
         <div className={styles.select_type}>
-          <select name="typefilter" id="typefilter" onChange={changeFilterType}>
+          <select name="typeFilter" id="typeFilter" onChange={changeFilterType}>
             {typeFilter.map((option) => {
               return (
                 <option key={option} value={option}>
@@ -77,19 +93,10 @@ export function Repositories({ repos, typeFilter, languageFilter, languageColor 
             })}
           </select>
         </div>
-        {/* <select id="bender" value={this.props.bender} onChange={this.changeOption.bind(this, 'bender')}>
-          {this.props.benderOptions.map(function (option) {
-            return (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            );
-          })}
-        </select> */}
       </div>
       <div>
         {filteredRepos.map((item, index) => (
-          <Repository key={index} {...item} languageColor={languageColor}/>
+          <Repository key={index} {...item} languageColor={languageColor} />
         ))}
       </div>
     </>

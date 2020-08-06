@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styles from './Repositories.module.scss';
 import Moment from 'react-moment';
 
@@ -11,8 +11,8 @@ export function Repository({ name, html_url, description, language, updated_at, 
       <div className={styles.description}>{description}</div>
       <div className={styles.details}>
         <div>
-          <span className={styles.language_color} style={{ color: languageColor[language] }}></span>
-          {language}
+          <span className={styles.language_color} style={{ backgroundColor: languageColor[language] }}></span>
+          <span>{language}</span>
         </div>
         <div>
           <i className="fa fa-star"> </i> {stargazers_count}
